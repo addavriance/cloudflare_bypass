@@ -1,0 +1,2 @@
+halo~=0.0.31
+seleniumbase~=4.20.3
