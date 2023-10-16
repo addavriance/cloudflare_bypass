@@ -6,10 +6,8 @@ from seleniumbase import Driver
 class BypassCloudflare:
     def __init__(self, url: str, hints=None):
 
-        if hints is None:
-            hints = ["Один момент", "Just a moment..."]
         self.url = url
-        self.hints = hints
+        self.hints = hints if hints is not None else ["Один момент", "Just a moment..."]
 
         self.driver = None
 
