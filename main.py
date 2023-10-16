@@ -44,8 +44,7 @@ class BypassCloudflare:
         return html
 
 
-# url = "https://tokensniffer.com/token/bsc/mkxe928xk6xskz1svaxlbau9ko9lc6i80s6cg3oxz6sulh94g1u6hgkhk96x"
+url = "https://tokensniffer.com/token/bsc/mkxe928xk6xskz1svaxlbau9ko9lc6i80s6cg3oxz6sulh94g1u6hgkhk96x"
 
-url = "https://pony.town"
 bps = BypassCloudflare(url)
 print(bps.bypass_captcha())
