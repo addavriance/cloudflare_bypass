@@ -1,48 +1,52 @@
-import subprocess
 from halo import Halo
 from seleniumbase import Driver
+from zenrows import ZenRowsClient
 
 
 class BypassCloudflare:
-    def __init__(self, url: str, hints=None):
+    def init(self, url: str, hints=None, zenrows_token=None):
 
         self.url = url
         self.hints = hints if hints is not None else ["Один момент", "Just a moment..."]
+        self.zenrows_token = zenrows_token
 
+        self.client = None
         self.driver = None
 
-        self.spinner = Halo(text=f"Loading page", spinner='line', color="white", interval=100, placement="right", )
+        self.spinner = Halo(text=f"Loading page", spinner='line', color="white", interval=100, placement="right")
 
-    @staticmethod
-    def get_chrome_path():
-        chrome_path = subprocess.check_output(['which', 'chrome']).decode('utf-8').strip()
-        return chrome_path
+        self.connect_zenrows_client() if self.zenrows_token is not None else ...
 
     def create_webdriver_untdetect(self):
         self.spinner.start("Loading driver")
         self.driver = Driver(uc=True, headless=True)
         self.spinner.succeed()
 
-    def bypass_captcha(self):
-        self.create_webdriver_untdetect()
-
-        self.spinner.start("Getting url")
-        self.driver.get(self.url)
-        self.spinner.succeed("Getting url")
-
-        self.spinner.start("Loading page")
-
-        while any(x in self.driver.page_source for x in self.hints):
-            ...
-
+    def connect_zenrows_client(self):
+        self.spinner.start("Connecting Zenrows client")
+        self.client = ZenRowsClient(self.zenrows_token)
         self.spinner.succeed()
 
-        html = self.driver.page_source
+    def bypass_captcha(self):
+        if self.client is None:
+            self.create_webdriver_untdetect() if self.driver is None else ...
+
+            self.spinner.start("Getting url")
+            self.driver.get(self.url)
+            self.spinner.succeed()
+
+            self.spinner.start("Loading page")
+
+            while any(x in self.driver.page_source for x in self.hints):\
+                ...
+
+            self.spinner.succeed()
+
+            html = self.driver.page_source
+        else:
+            self.spinner.start("Getting url")
+            response = self.client.get(url, params={"antibot":"true"})
+            self.spinner.succeed()
+            html = response.text
 
         return html
-
-
-url = "https://tokensniffer.com/token/bsc/mkxe928xk6xskz1svaxlbau9ko9lc6i80s6cg3oxz6sulh94g1u6hgkhk96x"
-
-bps = BypassCloudflare(url)
-print(bps.bypass_captcha())
