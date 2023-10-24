@@ -10,10 +10,6 @@ A simple Python script that bypasses the Cloudflare "Just a moment..." captcha.
 ## Overview
 The `cloudflare_bypass` script utilizes the SeleniumBase and ZenRows libraries to bypass the Cloudflare captcha on websites. It automates the process of loading the webpage, handling the captcha, and retrieving the page content.
 
-## Features
-- Supports macOS and Linux operating systems for free.
-- Windows users require a ZenRows account and token to use the script. They are limited to 200 free requests.
-
 ## Prerequisites
 Before using the script, make sure you have the following installed:
 
@@ -28,7 +24,4 @@ Before using the script, make sure you have the following installed:
 4. Run the script: `python cloudflare_bypass.py`.
 5. The script will initiate the bypass process and display the retrieved HTML content in the console.
 
-Please note that for Windows users, you need to provide your ZenRows token to make requests. 
-
-## Disclaimer
-This script is intended for educational and research purposes only. Use it responsibly and respect the website's terms of service and captcha protection.
+Please note that, you may need to provide your ZenRows token to make requests if default bypass methond doesn't work.
